@@ -1,7 +1,6 @@
 #include <iostream>
 #include <vector>
 #include <random>
-#include <optional>
 using namespace std;
 
 vector<int> generateRandomArray(int minLen = 1, int maxLen = 20,
@@ -18,16 +17,17 @@ vector<int> generateRandomArray(int minLen = 1, int maxLen = 20,
     return arr;
 }
 
-optional<int> maxDivisibleBy5(const vector<int>& arr) {
-    optional<int> result;
+bool maxDivisibleBy5(const vector<int>& arr, int& result) {
+    bool found = false;
     for (int x : arr) {
         if (x % 5 == 0) {
-            if (!result || x > *result) {
+            if (!found || x > result) {
                 result = x;
+                found = true;
             }
         }
     }
-    return result;
+    return found;
 }
 
 int main() {
@@ -39,9 +39,9 @@ int main() {
     }
     cout << '\n';
 
-    auto result = maxDivisibleBy5(arr);
-    if (result) {
-        cout << "Максимальный элемент, кратный 5: " << *result << '\n';
+    int result;
+    if (maxDivisibleBy5(arr, result)) {
+        cout << "Максимальный элемент, кратный 5: " << result << '\n';
     } else {
         cout << "В массиве нет элементов, кратных 5\n";
     }
